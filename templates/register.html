@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}UR Flea Market{% endblock %}
+{% block head %}
+{{super() }}
+
+<link rel="stylesheet" type= "text/css" href="{{url_for('static', filename='style.css')}}">
+
+{%endblock%}
+
+{% block page_content %}
+<div class="title"> 
+      Create a New Account 
+</div>
+   
+
+<div class="entries">  
+
+    
+     {{ wtf.quick_form(register_form) }}  
+               
+          </div>
+       
+
+
+
+
+
+
+{% endblock %}
