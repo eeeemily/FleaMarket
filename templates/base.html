@@ -25,16 +25,15 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                <li><a  href="{{url_for('index')}}"> Home</a>
-            
-          
                 <li><a href="{{url_for('login')}}">Login </a></li>
-                    <li><a href="{{url_for('register')}}">Register </a></li>
-              
-                
-                    <li><a href="{{ url_for('logout') }}" class="navbar-item">
-                        Logout
-                    </a></li>
-                   
+                <li><a href="{{url_for('register')}}">Register </a></li>
+                    
+                <li><a href="{{ url_for('add_product') }}" class="navbar-item">
+                    Add Product
+                </a></li>
+                <li><a href="{{ url_for('logout') }}" class="navbar-item">
+                    Logout
+                </a></li>  
             </ul>
         </div>
     </div>

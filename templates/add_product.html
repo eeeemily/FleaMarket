@@ -11,16 +11,12 @@
 
 {% block page_content %}
 <div class="title"> 
-      Create a New Account 
+      Add a Product for Sale
 </div>
-   
 
-<div class="entries">  
-
-    
-     {{ wtf.quick_form(register_form) }}  
-               
-          </div>
+<div class="entries">
+    {{ wtf.quick_form(product_form) }}
+</div>
 
 
 {% endblock %}
