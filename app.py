@@ -4,8 +4,8 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
-from wtforms import StringField, SubmitField, PasswordField, BooleanField, FileField
-from wtforms.validators import DataRequired, EqualTo, Email, Length 
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, FileField, DecimalField
+from wtforms.validators import DataRequired, EqualTo, Email, Length, NumberRange
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -29,29 +29,40 @@ class RegisterForm(FlaskForm):
     email = StringField ('Email', validators=[DataRequired(), Email()])
     new_username = StringField('Username', validators=[DataRequired()])
     new_password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm_password', message='Passwords must match'), Length(min=6, max=15, message="Password must be at least 6 characters")])
-    confirm_password=PasswordField('Confirm Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired()])
     register = SubmitField('Register')
 
 class AddProductForm(FlaskForm):
     product_title = StringField ('Product Name', validators=[DataRequired()])
     product_description = StringField ('Product Description', validators=[DataRequired()])
+    price = DecimalField ('Product Price', validators=[NumberRange(min=0)])
     photo = FileField(validators=[FileRequired()])
     submit = SubmitField('Add Product')
 
-class Users(db.Model):
-    username =db.Column(db.String(), primary_key=True, unique=True)
-    name=db.Column(db.String(), nullable=False)
+
+# database construction: https://www.youtube.com/watch?v=juPQ04_twtA
+
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(), unique=True)
+    name = db.Column(db.String(), nullable=False)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
-    #date_created=db.Column(db.DateTime, default=datetime.utcnow)
+    phone_number = db.Column(db.String(100))
+    products = db.relationship('Product', backref='author')
+
     def __repr__(self):
         return '<Name %r>' % self.id
 
-class Products(db.Model):
+class Product(db.Model):
+    __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(), nullable=False)
     description = db.Column(db.String(), nullable=False)
+    price = db.Column(db.Integer, nullable=False)
     photo_path = db.Column(db.String(), nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
 
 @app.errorhandler(404)
@@ -69,7 +80,6 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
     form = LoginForm()
     if form.validate_on_submit():
        old_name=session.get('username')
@@ -112,7 +122,7 @@ def add_product():
         description = product_form.product_description.data
         photo_path = os.path.join(app.instance_path, 'photos', filename)
         
-        product = Products(title=title, description=description, photo_path=photo_path)
+        product = Product(title=title, description=description, photo_path=photo_path)
         print("product created", title, description, photo_path)
         db.session.add(product)
         db.session.commit()
