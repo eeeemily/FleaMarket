@@ -13,10 +13,13 @@ def create_app():
     bootstrap = Bootstrap(app)
 
     app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite'
 
     db.init_app(app)
 
+    # with app.app_context():
+    #     init_db()
+        
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
