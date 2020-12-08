@@ -22,6 +22,12 @@ def index():
     return render_template('index.html', products=Product.query.all())
 
 
+@main.route('/test')
+def test():
+    from .models import Product
+    return render_template('test.html', products=Product.query.all())
+
+
 @main.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
