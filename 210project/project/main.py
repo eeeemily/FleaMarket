@@ -1,7 +1,7 @@
 # main.py
 import os
 
-from flask import Blueprint, redirect, render_template, url_for, request, current_app
+from flask import Blueprint, redirect, request, render_template, url_for, request, current_app
 from flask_login import login_required, current_user
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
@@ -28,11 +28,36 @@ def test():
     return render_template('test.html', products=Product.query.all())
 
 
+@main.route('/update_product/<int:id>', methods=['GET', 'POST'])
+def update_product(id):
+    from .models import Product, User
+    product = Product.query.get_or_404(id)
+    
+    update_form = auth.EditProductForm(title=product.title, description=product.description, price=product.price)
+    if update_form.validate_on_submit():
+        product.title = update_form.title.data
+        product.description = update_form.description.data
+        product.price = int(update_form.price.data)
+        db.session.commit()
+        return redirect(url_for('main.profile'))
+    else:
+        return render_template('update_product.html', product=product, update_form=update_form)
+
+@main.route('/delete/<int:id>')
+def delete(id):
+    from .models import Product, User
+    product = Product.query.get_or_404(id)
+    try:
+        db.session.delete(product)
+        db.session.commit()
+        return redirect(url_for('main.profile'))
+    except:
+        return "There was an error deleting from the database"
+        
 @main.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
     product_form = auth.AddProductForm()
-    update_form = auth.EditProductForm()
     if product_form.validate_on_submit():
         photo = product_form.photo.data
         filename = photo.filename
@@ -48,23 +73,18 @@ def profile():
         price = int(price)
         photo_name = filename
 
-        from .models import User
+        from .models import User, Product
         author_id = User.query.filter_by(name=current_user.name).first().id
-
-        # print("price =", price, "type = ", type(price))
-
-        # print("got them")
 
         product = models.Product(title=title, description=description,
                                  price=price, photo_name=photo_name, author_id=author_id)
-        # print("product created", title, description, price, photo_path)
-        # print("product = ", product, product.title, product.description, product.price, product.photo_path)
-
-        from .models import Product
+        
         db.create_all()
         db.session.add(product)
         db.session.commit()
 
         return redirect(url_for('main.index'))
+
+
     from .models import Product
-    return render_template('profile.html', product_form=product_form, update_form=update_form, name=current_user.name, products=Product.query.filter_by(author_id=current_user.id).all())
+    return render_template('profile.html', product_form=product_form, name=current_user.name, products=Product.query.filter_by(author_id=current_user.id).all())

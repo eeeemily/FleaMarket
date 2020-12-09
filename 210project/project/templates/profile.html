@@ -23,7 +23,7 @@
 
 {% for product in products %}
       <div class="col-lg-3 col-md-4 col-xs-6" >
-      <div class="thumbnail" height="500px" width="500px">
+      <div class="box">  
          <a href="{{ url_for('static', filename='/instance/photos/' + product.photo_name) }}" >
             <!-- <img src=""{{ url_for('static', filename='/instance/photos/' + product.photo_name) }}" style="width:100%"> -->
             <img src="{{ url_for('static', filename='/instance/photos/' + product.photo_name) }}" class="img-thumbnail img-fluid" max-width= "300px"
@@ -34,9 +34,10 @@
                <ul>Description: {{ product.description }}</ul>
                <ul>Price: ${{ product.price }}</ul> 
             </li>
-            <div class="box">
-               {{ wtf.quick_form(update_form) }}  
-            </div>
+            <a href="{{ url_for('main.update_product', id = product.id, external=True)}}" class="align-self-end btn btn-info btn-sm">Update</a>
+            <a href="{{ url_for('main.delete', id = product.id, external=True)}}" class="align-self-end btn btn-danger btn-sm">Delete</a>
+						
+
       </div>
       </div>
 {% endfor %}

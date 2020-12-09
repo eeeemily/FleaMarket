@@ -1,0 +1,24 @@
+<!-- templates/profile.html -->
+
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}UR Flea Market{% endblock %}
+{% block head %}
+{{super() }}
+
+<link rel="stylesheet" type= "text/css" href="{{url_for('static', filename='style.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+
+{%endblock%}
+
+{% block content %}
+<h3 class = "name-content"> Welcome, {{name}}</h3>
+<div class="column is-4 is-offset-4">
+  <h3 class="title">Update a Product </h3>
+  <div class="box">
+  {{ wtf.quick_form(update_form) }}  
+  </div>
+</div> 
+
+{% endblock %}
