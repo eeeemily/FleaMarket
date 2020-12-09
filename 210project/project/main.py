@@ -18,8 +18,8 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    from .models import Product
-    return render_template('index.html', products=Product.query.all())
+    from .models import Product, User
+    return render_template('index.html', products=Product.query.all(), users=User)
 
 
 @main.route('/test')
@@ -32,6 +32,7 @@ def test():
 @login_required
 def profile():
     product_form = auth.AddProductForm()
+    update_form = auth.EditProductForm()
     if product_form.validate_on_submit():
         photo = product_form.photo.data
         filename = photo.filename
@@ -65,5 +66,5 @@ def profile():
         db.session.commit()
 
         return redirect(url_for('main.index'))
-
-    return render_template('profile.html', product_form=product_form, name=current_user.name)
+    from .models import Product
+    return render_template('profile.html', product_form=product_form, update_form=update_form, name=current_user.name, products=Product.query.filter_by(author_id=current_user.id).all())
