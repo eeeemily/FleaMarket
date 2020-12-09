@@ -3,28 +3,17 @@
 
 {% block head%}
 {{ super() }}
-<style type="text/css"> 
-   li{color: rgba(27, 96, 117, 0.863); 
-   font-family:Verdana;
-   font-size: 15px;
-   } 
-   img{
-   border: 1px solid rgba(27, 0, 44, 0.301);
-   max-width: 200 px;
-   max-height: 200 px; 
-   }
-</style>
+<link rel="stylesheet" type= "text/css" href="{{url_for('static', filename='homestyle.css')}}">
 {% endblock %}
 
 {% block app_content %}
 
-<div class="background"> </div>
-<div class="row">
-   <!-- <div class="bg-text"> -->
+   <div class="titlebox">
       <h1>UR Flea Market</h1>
-      <p>Everything you need for college =)</p>
-   <!-- </div> -->
-</div>
+      <h3>Get you need for college here!</h3>
+   </div>
+
+
 {% for product in products %}
    {% if (product.id % 4 ==0) %}
    <div class="row">
@@ -32,19 +21,18 @@
       <div class="col-lg-3 col-md-4 col-xs-6" >
       <div class="box">
          <a href="{{ url_for('static', filename='/instance/photos/' + product.photo_name) }}" >
-            <!-- <img src=""{{ url_for('static', filename='/instance/photos/' + product.photo_name) }}" style="width:100%"> -->
-            <img src="{{ url_for('static', filename='/instance/photos/' + product.photo_name) }}" class="img-thumbnail img-fluid" max-width= "300px"
+            <div class="img_center">
+            <img src="{{ url_for('static', filename='/instance/photos/' + product.photo_name) }}" class="img-thumbnail" max-width= "300px"
             height= "20px"/></a>
-            <li>
-               <!-- <ul>ID:{{ product.id }}</ul> -->
-               <ul>Product: {{ product.title }}</ul>
-               <ul>Description: {{ product.description }}</ul>
-               <ul>Price: ${{ product.price }}</ul> 
-               {% if current_user.is_authenticated %}
-                  <ul>Seller: {{ users.query.filter_by(id=product.author_id).first().name }}</ul> 
-                  <ul>Contact: {{ users.query.filter_by(id=product.author_id).first().phone }}</ul> 
-               {% endif %}
-            </li>
+            </div>
+            <h4>{{ product.title }}</h4>
+            <h6>Description: {{ product.description }}</h6>
+            <h6>Price: ${{ product.price }}</h6> 
+            {% if current_user.is_authenticated %}
+               <h6>Seller: {{ users.query.filter_by(id=product.author_id).first().name }}</h6> 
+               <h6>Contact: {{ users.query.filter_by(id=product.author_id).first().phone }}</h6> 
+            {% endif %}
+
       </div>
       </div>
    {% if (product.id % 4 == 0) %}

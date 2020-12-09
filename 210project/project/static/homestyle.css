@@ -1,0 +1,25 @@
+h1 {
+  color: #000000b7;
+  font-family: "Times New Roman", Times, serif;
+}
+h3 {
+  color: #0000007c;
+  font-family: "Times New Roman", Times, serif;
+}
+h4 {
+  font-family: "Times New Roman", Times, serif;
+  font-style: initial;
+  text-align: center;
+}
+.titlebox {
+  padding-bottom: 10px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  border-radius: 6px;
+  text-align: center;
+}
+.row {
+  padding-bottom: 2%;
+}
+.img_center {
+  text-align: center;
+}

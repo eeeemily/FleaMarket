@@ -1,3 +1,4 @@
+
 {% extends "bootstrap/base.html" %}
 
 {% block title %}UR Flea Market {% endblock %}
@@ -50,18 +51,12 @@
 </div>
 {% endblock %}
 
-
-
-       
 {% block content %}
-<div class="container">
-    {% block app_content%}
-    {% endblock %}
-</div>
+<!-- <div class="container"> -->
+    <div class="productbox">
+        {% block app_content%}
+        {% endblock %}
+    </div>
+<!-- </div> -->
 {% endblock %}
-            
-  
 
-</body>
-
-</html>
