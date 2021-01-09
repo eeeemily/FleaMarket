@@ -1,0 +1,62 @@
+
+{% extends "bootstrap/base.html" %}
+
+{% block title %}UR Flea Market {% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='/Photos/market.png') }}" type="image/x-icon">
+
+<link rel="stylesheet" type= "text/css" href="{{url_for('static', filename='style.css')}}">
+{% endblock %}
+
+
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+               <li><a  href="{{url_for('main.index')}}"> Home</a></li>                
+                {% if not current_user.is_authenticated %}
+               
+               
+                <li><a href="{{ url_for('auth.login') }}" class="navbar-item">
+                    Login
+                </a> </li>
+                <li><a href="{{ url_for('auth.signup') }}" class="navbar-item">
+                    Sign Up
+                </a> </li> 
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('main.profile') }}" class="navbar-item">
+                    Profile
+                </a></li>
+                <li><a href="{{ url_for('auth.logout') }}" class="navbar-item">
+                    Logout
+                </a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- <div class="container"> -->
+    <div class="productbox">
+        {% block app_content%}
+        {% endblock %}
+    </div>
+<!-- </div> -->
+{% endblock %}
+

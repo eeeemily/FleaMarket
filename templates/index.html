@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+
+{% block head%}
+{{ super() }}
+<link rel="stylesheet" type= "text/css" href="{{url_for('static', filename='homestyle.css')}}">
+{% endblock %}
+
+{% block app_content %}
+
+   <div class="titlebox">
+      <h1>UR Flea Market</h1>
+      <h3>Get you need for college here!</h3>
+   </div>
+
+
+{% for product in products %}
+   {% if (product.id % 4 ==0) %}
+   <div class="row">
+   {% endif %}
+      <div class="col-lg-3 col-md-4 col-xs-6" >
+      <div class="box">
+         <a href="{{ url_for('static', filename='/instance/photos/' + product.photo_name) }}" >
+            <div class="img_center">
+            <img src="{{ url_for('static', filename='/instance/photos/' + product.photo_name) }}" class="img-thumbnail" max-width= "300px"
+            height= "20px"/></a>
+            </div>
+            <h4>{{ product.title }}</h4>
+            <h6>Description: {{ product.description }}</h6>
+            <h6>Price: ${{ product.price }}</h6> 
+            {% if current_user.is_authenticated %}
+               <h6>Seller: {{ users.query.filter_by(id=product.author_id).first().name }}</h6> 
+               <h6>Contact: {{ users.query.filter_by(id=product.author_id).first().phone }}</h6> 
+            {% endif %}
+
+      </div>
+      </div>
+   {% if (product.id % 4 == 0) %}
+   </div>
+   {% endif %}
+{% endfor %}
+
+{% endblock %}
