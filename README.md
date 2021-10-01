@@ -1,3 +1,6 @@
+# View live Website
+http://minghuizheng.com/FleaMarket/
+
 # General Description
 Our project is a UR FleaMarket, i.e. a website where students can put information about products they want to sell.
 It consists of an authentication part, which requires a user to create an account. We keep users’ passwords hashed using SHA256 so even if our database is hacked into, it is impossible to retrieve user’s passwords.
@@ -11,7 +14,7 @@ Our database consists of two tables; User and Product that are related with a on
 The user creates an account by putting their information which we store in the database. 
 Under the section “Profile”, the user can add items to sell by inputting a title, description, price and a picture of their product. All of this can be updated further, and can be deleted by the seller. Thus, we have a fully functional CRUD application.
 
-Project done by:
+Contributors:
 - Kushal Gautam
 - Anisha Bhattacharya
 - Minghui Zheng
