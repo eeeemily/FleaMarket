@@ -14,9 +14,4 @@ Our database consists of two tables; User and Product that are related with a on
 The user creates an account by putting their information which we store in the database. 
 Under the section “Profile”, the user can add items to sell by inputting a title, description, price and a picture of their product. All of this can be updated further, and can be deleted by the seller. Thus, we have a fully functional CRUD application.
 
-Contributors:
-- Kushal Gautam
-- Anisha Bhattacharya
-- Minghui Zheng
-- Nikola Danevski
 
